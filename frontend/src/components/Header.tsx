@@ -69,17 +69,10 @@ export const Header: React.FC<HeaderProps> = ({ metrics, activeTab, setActiveTab
 
       {/* Action Controls */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div
-          onClick={onSearchClick}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '0.4rem',
-            background: 'rgba(255, 255, 255, 0.05)', border: '1px solid var(--border-subtle)',
-            borderRadius: '20px', padding: '0.45rem 0.9rem', fontSize: '0.8rem', color: 'var(--text-secondary)',
-            cursor: 'pointer'
-          }}
-        >
-          <Search size={14} /> Search API & Docs
-          <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', border: '1px solid rgba(255, 255, 255, 0.15)', padding: '1px 5px', borderRadius: '4px', marginLeft: '4px' }}>⌘K</span>
+        <div onClick={onSearchClick} className="runpod-search-button">
+          <Search size={14} color="var(--accent-purple-light)" />
+          <span>Search API & Docs</span>
+          <span className="runpod-search-shortcut">⌘K</span>
         </div>
 
         {metrics?.mock_mode ? (

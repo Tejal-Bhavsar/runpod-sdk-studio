@@ -127,8 +127,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
             onChange={handleInputChange}
             autoFocus
             style={{
-              flex: 1, background: 'transparent !important', border: 'none !important',
-              boxShadow: 'none !important', fontSize: '1.05rem', color: '#fff'
+              flex: 1, background: 'transparent', border: 'none',
+              outline: 'none', boxShadow: 'none', fontSize: '1.05rem', color: '#fff'
             }}
           />
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>

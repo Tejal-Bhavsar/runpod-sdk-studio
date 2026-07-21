@@ -275,3 +275,36 @@ select option {
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(123, 63, 228, 0.8);
 }
+
+/* Premium Search Button Style */
+.runpod-search-button {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(14, 8, 38, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.runpod-search-button:hover {
+  background: rgba(28, 17, 72, 0.85) !important;
+  border-color: rgba(123, 63, 228, 0.55) !important;
+  box-shadow: 0 0 12px rgba(123, 63, 228, 0.2);
+  color: #ffffff;
+}
+.runpod-search-shortcut {
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  color: #c084fc;
+  background: rgba(123, 63, 228, 0.22);
+  border: 1px solid rgba(123, 63, 228, 0.4);
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 6px;
+  font-weight: 700;
+}
+
