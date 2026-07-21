@@ -6,6 +6,7 @@ import { PodManager } from './components/PodManager';
 import { ServerlessStudio } from './components/ServerlessStudio';
 import { SDKPlayground } from './components/SDKPlayground';
 import { AskRunpodModal } from './components/AskRunpodModal';
+import { SearchModal } from './components/SearchModal';
 import { MessageSquare } from 'lucide-react';
 import { GPUInfo, PodResponse, ServerlessEndpointInfo, ServerlessRunResponse, SDKCodeResponse, ClusterMetrics } from './types';
 
@@ -16,6 +17,7 @@ export function App() {
   const [pods, setPods] = useState<PodResponse[]>([]);
   const [endpoints, setEndpoints] = useState<ServerlessEndpointInfo[]>([]);
   const [isAskRunpodOpen, setIsAskRunpodOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const podManagerRef = useRef<any>(null);
 
   // Initial Data Fetch
@@ -126,6 +128,7 @@ export function App() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onDeployClick={triggerDeployModal}
+        onSearchClick={() => setIsSearchOpen(true)}
       />
 
       {/* Render Landing Page Hero ONLY on 'home' tab */}
@@ -173,6 +176,12 @@ export function App() {
       <AskRunpodModal
         isOpen={isAskRunpodOpen}
         onClose={() => setIsAskRunpodOpen(false)}
+        onSelectTab={(tab) => setActiveTab(tab)}
+      />
+
+      <SearchModal
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
         onSelectTab={(tab) => setActiveTab(tab)}
       />
     </div>
