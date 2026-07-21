@@ -138,6 +138,7 @@ export function App() {
         <Hero
           onDeployClick={triggerDeployModal}
           onExploreServerless={() => setActiveTab('serverless')}
+          onSelectTab={(tab) => setActiveTab(tab)}
         />
       )}
 

@@ -124,31 +124,35 @@ select option {
   color: #ffffff;
 }
 
-/* Pill Navigation */
+/* Spacious Dashboard Navigation */
 .nav-pill-container {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 4px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 0.5rem;
 }
 .nav-pill-btn {
-  padding: 0.45rem 1.1rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-secondary);
   background: transparent;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+.nav-pill-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
 }
 .nav-pill-btn.active {
-  background: var(--accent-purple);
+  background: rgba(123, 63, 228, 0.15) !important;
   color: #ffffff;
-  box-shadow: 0 0 14px var(--accent-purple-glow);
+  border: 1px solid rgba(123, 63, 228, 0.45) !important;
+  box-shadow: 0 0 12px rgba(123, 63, 228, 0.2);
 }
 
 /* Buttons */
