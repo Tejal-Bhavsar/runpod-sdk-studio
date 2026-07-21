@@ -5,6 +5,7 @@ import { ClusterStats } from './components/ClusterStats';
 import { PodManager } from './components/PodManager';
 import { ServerlessStudio } from './components/ServerlessStudio';
 import { SDKPlayground } from './components/SDKPlayground';
+import { AskRunpodModal } from './components/AskRunpodModal';
 import { MessageSquare } from 'lucide-react';
 import { GPUInfo, PodResponse, ServerlessEndpointInfo, ServerlessRunResponse, SDKCodeResponse, ClusterMetrics } from './types';
 
@@ -14,6 +15,7 @@ export function App() {
   const [gpus, setGpus] = useState<GPUInfo[]>([]);
   const [pods, setPods] = useState<PodResponse[]>([]);
   const [endpoints, setEndpoints] = useState<ServerlessEndpointInfo[]>([]);
+  const [isAskRunpodOpen, setIsAskRunpodOpen] = useState(false);
   const podManagerRef = useRef<any>(null);
 
   // Initial Data Fetch
@@ -163,10 +165,16 @@ export function App() {
         </main>
       </div>
 
-      {/* Floating Ask Runpod Widget */}
-      <div className="ask-runpod-widget" onClick={() => alert('💬 RunPod AI Assistant: How can I help you deploy or optimize your GPU workloads today?')}>
+      {/* Floating Ask Runpod Widget & Drawer */}
+      <div className="ask-runpod-widget" onClick={() => setIsAskRunpodOpen(!isAskRunpodOpen)}>
         <MessageSquare size={16} /> Ask RunPod
       </div>
+
+      <AskRunpodModal
+        isOpen={isAskRunpodOpen}
+        onClose={() => setIsAskRunpodOpen(false)}
+        onSelectTab={(tab) => setActiveTab(tab)}
+      />
     </div>
   );
 }

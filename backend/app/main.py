@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import pods, serverless, sdk, metrics
+from app.routers import pods, serverless, sdk, metrics, assistant
 from app.websockets import streaming
 
 app = FastAPI(
@@ -25,6 +25,7 @@ app.include_router(pods.router)
 app.include_router(serverless.router)
 app.include_router(sdk.router)
 app.include_router(metrics.router)
+app.include_router(assistant.router)
 app.include_router(streaming.router)
 
 @app.get("/")
