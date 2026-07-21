@@ -106,10 +106,10 @@ export const ServerlessStudio: React.FC<ServerlessStudioProps> = ({ endpoints, o
         </div>
 
         <button
-          className="btn-primary"
+          className="btn-primary-glow"
           onClick={handleRunStream}
           disabled={isStreaming}
-          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', opacity: isStreaming ? 0.7 : 1 }}
+          style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', opacity: isStreaming ? 0.7 : 1, padding: '0.85rem 1.5rem', fontSize: '0.95rem' }}
         >
           <Play size={16} /> {isStreaming ? 'Streaming Inference...' : 'Run Endpoint Stream'}
         </button>
