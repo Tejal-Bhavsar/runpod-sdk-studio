@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Cpu, Plus, Play, Square, Trash2, ExternalLink, HardDrive } from 'lucide-react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import { Cpu, Plus, Play, Square, Trash2, ExternalLink } from 'lucide-react';
 import { GPUInfo, PodResponse } from '../types';
 
 interface PodManagerProps {
@@ -9,12 +9,17 @@ interface PodManagerProps {
   onPodAction: (podId: string, action: 'start' | 'stop' | 'terminate') => void;
 }
 
-export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod, onPodAction }) => {
+export const PodManager = forwardRef((props: PodManagerProps, ref) => {
+  const { gpus, pods, onDeployPod, onPodAction } = props;
   const [showDeployModal, setShowDeployModal] = useState(false);
   const [podName, setPodName] = useState('vllm-llama3-worker');
   const [imageName, setImageName] = useState('runpod/vllm:latest');
   const [selectedGpu, setSelectedGpu] = useState(gpus[0]?.id || 'NVIDIA RTX 4090');
   const [diskSize, setDiskSize] = useState(50);
+
+  useImperativeHandle(ref, () => ({
+    openModal: () => setShowDeployModal(true)
+  }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +41,10 @@ export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod,
       {/* Action Bar */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
         <div>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 700 }}>GPU Pods Management</h2>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Deploy on-demand GPU instances for model training & vLLM serving</p>
+          <h2 style={{ fontSize: '1.3rem', fontWeight: 800 }}>Active GPU Pods</h2>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>On-demand GPU compute instances for deep learning & LLM serving</p>
         </div>
-        <button className="btn-primary" onClick={() => setShowDeployModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <button className="btn-primary-glow" onClick={() => setShowDeployModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Plus size={18} /> Deploy On-Demand Pod
         </button>
       </div>
@@ -51,7 +56,7 @@ export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod,
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
               <div>
                 <h3 style={{ fontSize: '1rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <Cpu size={18} color="var(--accent-purple)" /> {pod.name}
+                  <Cpu size={18} color="var(--accent-purple-light)" /> {pod.name}
                 </h3>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                   ID: {pod.id}
@@ -85,19 +90,19 @@ export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod,
             <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-subtle)' }}>
               {pod.status === 'RUNNING' ? (
                 <button
-                  className="btn-secondary"
+                  className="btn-secondary-pill"
                   title="Stop Pod"
                   onClick={() => onPodAction(pod.id, 'stop')}
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.8rem' }}
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.8rem', padding: '0.5rem 0.8rem' }}
                 >
                   <Square size={14} color="#ef4444" /> Stop
                 </button>
               ) : (
                 <button
-                  className="btn-secondary"
+                  className="btn-secondary-pill"
                   title="Start Pod"
                   onClick={() => onPodAction(pod.id, 'start')}
-                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.8rem' }}
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.8rem', padding: '0.5rem 0.8rem' }}
                 >
                   <Play size={14} color="#10b981" /> Start
                 </button>
@@ -105,27 +110,27 @@ export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod,
 
               {pod.ip && (
                 <button
-                  className="btn-secondary"
+                  className="btn-secondary-pill"
                   title={`Open Pod Endpoint (${pod.ip}:8000)`}
                   onClick={() => {
                     alert(`🔗 Connected to Pod Endpoint (${pod.name})\nPublic IP: ${pod.ip}\nPorts: ${pod.ports}\n\nRedirecting to FastAPI Docs for API testing...`);
                     window.open('/docs', '_blank');
                   }}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', borderRadius: '8px' }}
+                  style={{ padding: '0.5rem 0.75rem' }}
                 >
                   <ExternalLink size={16} />
                 </button>
               )}
 
               <button
-                className="btn-secondary"
+                className="btn-secondary-pill"
                 title="Terminate Pod"
                 onClick={() => {
                   if (confirm(`Are you sure you want to terminate pod "${pod.name}"?`)) {
                     onPodAction(pod.id, 'terminate');
                   }
                 }}
-                style={{ padding: '0.5rem', borderRadius: '8px', color: '#ef4444' }}
+                style={{ padding: '0.5rem 0.75rem', color: '#ef4444' }}
               >
                 <Trash2 size={16} />
               </button>
@@ -136,10 +141,10 @@ export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod,
 
       {/* Deploy Modal */}
       {showDeployModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(7, 4, 18, 0.85)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200 }}>
           <div className="glass-panel" style={{ width: '100%', maxWidth: '520px', padding: '1.75rem', border: '1px solid var(--accent-purple)' }}>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Cpu color="var(--accent-purple)" /> Configure & Deploy GPU Pod
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Cpu color="var(--accent-purple-light)" /> Configure & Deploy GPU Pod
             </h3>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -170,14 +175,14 @@ export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod,
               </div>
 
               {selectedGpuObj && (
-                <div style={{ background: 'rgba(124, 58, 237, 0.1)', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(124, 58, 237, 0.3)', fontSize: '0.85rem' }}>
+                <div style={{ background: 'rgba(123, 63, 228, 0.12)', padding: '0.75rem', borderRadius: '10px', border: '1px solid rgba(123, 63, 228, 0.3)', fontSize: '0.85rem' }}>
                   <strong>Estimated Cost:</strong> ${selectedGpuObj.cost_per_hour}/hr (~${(selectedGpuObj.cost_per_hour * 24).toFixed(2)}/day)
                 </div>
               )}
 
               <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
-                <button type="submit" className="btn-primary" style={{ flex: 1 }}>Deploy Now</button>
-                <button type="button" className="btn-secondary" onClick={() => setShowDeployModal(false)}>Cancel</button>
+                <button type="submit" className="btn-primary-glow" style={{ flex: 1, justifyContent: 'center' }}>Deploy Now</button>
+                <button type="button" className="btn-secondary-pill" onClick={() => setShowDeployModal(false)}>Cancel</button>
               </div>
             </form>
           </div>
@@ -185,4 +190,4 @@ export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod,
       )}
     </div>
   );
-};
+});

@@ -1,86 +1,85 @@
 import React from 'react';
-import { Cpu, Terminal, Zap, ShieldCheck, Github } from 'lucide-react';
+import { Cpu, Terminal, Zap, ShieldCheck, Box, Search, ArrowRight } from 'lucide-react';
 import { ClusterMetrics } from '../types';
 
 interface HeaderProps {
   metrics: ClusterMetrics | null;
   activeTab: 'pods' | 'serverless' | 'sdk';
   setActiveTab: (tab: 'pods' | 'serverless' | 'sdk') => void;
+  onDeployClick: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ metrics, activeTab, setActiveTab }) => {
+export const Header: React.FC<HeaderProps> = ({ metrics, activeTab, setActiveTab, onDeployClick }) => {
   return (
-    <header className="glass-panel" style={{ margin: '1rem', padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div style={{
-          width: '42px', height: '42px', borderRadius: '10px',
-          background: 'linear-gradient(135deg, #7c3aed, #6366f1)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 0 15px rgba(124, 58, 237, 0.5)'
-        }}>
-          <Zap size={24} color="#fff" />
-        </div>
-        <div>
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            RunPod SDK Studio <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#a855f7', background: 'rgba(168,85,247,0.15)', padding: '2px 8px', borderRadius: '12px' }}>Full-Stack Showcase</span>
-          </h1>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            GPU Infrastructure & Serverless Developer Workbench
-          </p>
-        </div>
+    <>
+      {/* Top RunPod Announcement Bar */}
+      <div className="top-announcement-bar">
+        <span>📰 We raised a Series A! Read a post from our CEO: 1M devs and the cloud we're building next.</span>
+        <a href="https://www.runpod.io/blog" target="_blank" rel="noreferrer">
+          Read post <ArrowRight size={12} style={{ display: 'inline', marginLeft: '2px' }} />
+        </a>
       </div>
 
-      {/* Nav Tabs */}
-      <nav style={{ display: 'flex', gap: '0.5rem', background: 'rgba(15, 23, 42, 0.6)', padding: '4px', borderRadius: '10px', border: '1px solid var(--border-subtle)' }}>
-        <button
-          onClick={() => setActiveTab('pods')}
-          style={{
-            padding: '0.5rem 1rem', borderRadius: '8px', fontSize: '0.875rem', fontWeight: 600,
-            background: activeTab === 'pods' ? 'var(--accent-purple)' : 'transparent',
-            color: activeTab === 'pods' ? '#fff' : 'var(--text-secondary)',
-            display: 'flex', alignItems: 'center', gap: '0.4rem'
-          }}
-        >
-          <Cpu size={16} /> GPU Pods
-        </button>
+      {/* Main Navbar */}
+      <header className="runpod-navbar">
+        {/* Brand Logo */}
+        <div className="runpod-logo-group" onClick={() => setActiveTab('pods')}>
+          <div className="runpod-logo-icon">
+            <Box size={22} color="#ffffff" />
+          </div>
+          <span className="runpod-logo-text">runpod</span>
+          <span className="badge-tag">STUDIO</span>
+        </div>
 
-        <button
-          onClick={() => setActiveTab('serverless')}
-          style={{
-            padding: '0.5rem 1rem', borderRadius: '8px', fontSize: '0.875rem', fontWeight: 600,
-            background: activeTab === 'serverless' ? 'var(--accent-purple)' : 'transparent',
-            color: activeTab === 'serverless' ? '#fff' : 'var(--text-secondary)',
-            display: 'flex', alignItems: 'center', gap: '0.4rem'
-          }}
-        >
-          <Zap size={16} /> Serverless Studio
-        </button>
+        {/* Pill Nav Bar */}
+        <nav className="nav-pill-container">
+          <button
+            onClick={() => setActiveTab('pods')}
+            className={`nav-pill-btn ${activeTab === 'pods' ? 'active' : ''}`}
+          >
+            <Cpu size={15} /> GPU Pods
+          </button>
 
-        <button
-          onClick={() => setActiveTab('sdk')}
-          style={{
-            padding: '0.5rem 1rem', borderRadius: '8px', fontSize: '0.875rem', fontWeight: 600,
-            background: activeTab === 'sdk' ? 'var(--accent-purple)' : 'transparent',
-            color: activeTab === 'sdk' ? '#fff' : 'var(--text-secondary)',
-            display: 'flex', alignItems: 'center', gap: '0.4rem'
-          }}
-        >
-          <Terminal size={16} /> SDK Generator
-        </button>
-      </nav>
+          <button
+            onClick={() => setActiveTab('serverless')}
+            className={`nav-pill-btn ${activeTab === 'serverless' ? 'active' : ''}`}
+          >
+            <Zap size={15} /> Serverless Studio
+          </button>
 
-      {/* Mode Status */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        {metrics?.mock_mode ? (
-          <span className="badge badge-mock">
-            <ShieldCheck size={14} /> Mock Cloud Mode
-          </span>
-        ) : (
-          <span className="badge badge-running">
-            <ShieldCheck size={14} /> Live API Connected
-          </span>
-        )}
-      </div>
-    </header>
+          <button
+            onClick={() => setActiveTab('sdk')}
+            className={`nav-pill-btn ${activeTab === 'sdk' ? 'active' : ''}`}
+          >
+            <Terminal size={15} /> SDK Generator
+          </button>
+        </nav>
+
+        {/* Action Controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '0.4rem',
+            background: 'rgba(255, 255, 255, 0.05)', border: '1px solid var(--border-subtle)',
+            borderRadius: '20px', padding: '0.45rem 0.9rem', fontSize: '0.8rem', color: 'var(--text-secondary)'
+          }}>
+            <Search size={14} /> Search API & Docs
+          </div>
+
+          {metrics?.mock_mode ? (
+            <span className="badge badge-mock">
+              <ShieldCheck size={13} /> Mock Mode
+            </span>
+          ) : (
+            <span className="badge badge-running">
+              <ShieldCheck size={13} /> Live API
+            </span>
+          )}
+
+          <button className="btn-primary-glow" onClick={onDeployClick}>
+            <Zap size={16} /> Deploy Pod
+          </button>
+        </div>
+      </header>
+    </>
   );
 };

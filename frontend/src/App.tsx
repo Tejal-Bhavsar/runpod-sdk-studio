@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Header } from './components/Header';
+import { Hero } from './components/Hero';
 import { ClusterStats } from './components/ClusterStats';
 import { PodManager } from './components/PodManager';
 import { ServerlessStudio } from './components/ServerlessStudio';
 import { SDKPlayground } from './components/SDKPlayground';
+import { MessageSquare } from 'lucide-react';
 import { GPUInfo, PodResponse, ServerlessEndpointInfo, ServerlessRunResponse, SDKCodeResponse, ClusterMetrics } from './types';
 
 export function App() {
@@ -12,6 +14,7 @@ export function App() {
   const [gpus, setGpus] = useState<GPUInfo[]>([]);
   const [pods, setPods] = useState<PodResponse[]>([]);
   const [endpoints, setEndpoints] = useState<ServerlessEndpointInfo[]>([]);
+  const podManagerRef = useRef<any>(null);
 
   // Initial Data Fetch
   useEffect(() => {
@@ -105,34 +108,62 @@ export function App() {
     return await res.json();
   };
 
+  const triggerDeployModal = () => {
+    setActiveTab('pods');
+    setTimeout(() => {
+      if (podManagerRef.current) {
+        podManagerRef.current.openModal();
+      }
+    }, 100);
+  };
+
   return (
-    <div style={{ maxWidth: '1400px', margin: '0 auto', paddingBottom: '3rem' }}>
-      <Header metrics={metrics} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <ClusterStats metrics={metrics} />
+    <div style={{ paddingBottom: '4rem' }}>
+      <Header
+        metrics={metrics}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onDeployClick={triggerDeployModal}
+      />
 
-      <main>
-        {activeTab === 'pods' && (
-          <PodManager
-            gpus={gpus}
-            pods={pods}
-            onDeployPod={handleDeployPod}
-            onPodAction={handlePodAction}
-          />
-        )}
+      <Hero
+        onDeployClick={triggerDeployModal}
+        onExploreServerless={() => setActiveTab('serverless')}
+      />
 
-        {activeTab === 'serverless' && (
-          <ServerlessStudio
-            endpoints={endpoints}
-            onRunSync={handleRunSync}
-          />
-        )}
+      <div style={{ maxWidth: '1350px', margin: '0 auto' }}>
+        <ClusterStats metrics={metrics} />
 
-        {activeTab === 'sdk' && (
-          <SDKPlayground
-            onGenerateCode={handleGenerateCode}
-          />
-        )}
-      </main>
+        <main>
+          {activeTab === 'pods' && (
+            <PodManager
+              ref={podManagerRef}
+              gpus={gpus}
+              pods={pods}
+              onDeployPod={handleDeployPod}
+              onPodAction={handlePodAction}
+            />
+          )}
+
+          {activeTab === 'serverless' && (
+            <ServerlessStudio
+              endpoints={endpoints}
+              onRunSync={handleRunSync}
+            />
+          )}
+
+          {activeTab === 'sdk' && (
+            <SDKPlayground
+              onGenerateCode={handleGenerateCode}
+            />
+          )}
+        </main>
+      </div>
+
+      {/* Floating Ask Runpod Widget */}
+      <div className="ask-runpod-widget" onClick={() => alert('💬 RunPod AI Assistant: How can I help you deploy or optimize your GPU workloads today?')}>
+        <MessageSquare size={16} /> Ask RunPod
+      </div>
     </div>
   );
 }
