@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Header } from './components/Header';
+import { Hero } from './components/Hero';
 import { ClusterStats } from './components/ClusterStats';
 import { PodManager } from './components/PodManager';
 import { ServerlessStudio } from './components/ServerlessStudio';
@@ -12,7 +13,7 @@ import { MessageSquare } from 'lucide-react';
 import { GPUInfo, PodResponse, ServerlessEndpointInfo, ServerlessRunResponse, SDKCodeResponse, ClusterMetrics } from './types';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator'>('pods');
+  const [activeTab, setActiveTab] = useState<'home' | 'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator'>('pods');
   const [metrics, setMetrics] = useState<ClusterMetrics | null>(null);
   const [gpus, setGpus] = useState<GPUInfo[]>([]);
   const [pods, setPods] = useState<PodResponse[]>([]);
@@ -132,11 +133,20 @@ export function App() {
         onSearchClick={() => setIsSearchOpen(true)}
       />
 
-      <div style={{ maxWidth: '1350px', margin: '1.5rem auto 0 auto' }}>
+      {/* Render Landing Page Hero ONLY on 'home' tab */}
+      {activeTab === 'home' && (
+        <Hero
+          onDeployClick={triggerDeployModal}
+          onExploreServerless={() => setActiveTab('serverless')}
+          onSelectTab={(tab) => setActiveTab(tab)}
+        />
+      )}
+
+      <div style={{ maxWidth: '1350px', margin: activeTab === 'home' ? '0 auto' : '1.5rem auto 0 auto' }}>
         <ClusterStats metrics={metrics} />
 
         <main>
-          {activeTab === 'pods' && (
+          {(activeTab === 'pods' || activeTab === 'home') && (
             <PodManager
               ref={podManagerRef}
               gpus={gpus}
