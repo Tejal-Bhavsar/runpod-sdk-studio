@@ -77,7 +77,7 @@ export function App() {
 
   const handlePodAction = async (podId: string, action: 'start' | 'stop' | 'terminate') => {
     try {
-      const res = await fetch(`/api/pods/${podId}/action?action=${action}`, { method: 'POST' });
+      const res = await fetch(`/api/pods/${podId}/${action}`, { method: 'POST' });
       if (res.ok) {
         await fetchPods();
         await fetchMetrics();

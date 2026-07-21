@@ -20,7 +20,7 @@ def create_pod(req: PodCreateRequest):
     """Deploy a new GPU Pod instance."""
     return runpod_service.create_pod(req)
 
-@router.post("/pods/{pod_id}/action", response_model=PodResponse)
+@router.post("/pods/{pod_id}/{action}", response_model=PodResponse)
 def pod_action(
     pod_id: str = Path(..., description="ID of the pod"),
     action: str = Path(..., description="Action: start | stop | terminate")

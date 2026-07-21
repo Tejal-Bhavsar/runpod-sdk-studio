@@ -84,22 +84,49 @@ export const PodManager: React.FC<PodManagerProps> = ({ gpus, pods, onDeployPod,
             {/* Actions */}
             <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', paddingTop: '0.75rem', borderTop: '1px solid var(--border-subtle)' }}>
               {pod.status === 'RUNNING' ? (
-                <button className="btn-secondary" onClick={() => onPodAction(pod.id, 'stop')} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.8rem' }}>
+                <button
+                  className="btn-secondary"
+                  title="Stop Pod"
+                  onClick={() => onPodAction(pod.id, 'stop')}
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.8rem' }}
+                >
                   <Square size={14} color="#ef4444" /> Stop
                 </button>
               ) : (
-                <button className="btn-secondary" onClick={() => onPodAction(pod.id, 'start')} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.8rem' }}>
+                <button
+                  className="btn-secondary"
+                  title="Start Pod"
+                  onClick={() => onPodAction(pod.id, 'start')}
+                  style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', fontSize: '0.8rem' }}
+                >
                   <Play size={14} color="#10b981" /> Start
                 </button>
               )}
 
               {pod.ip && (
-                <a href={`http://${pod.ip}:8000`} target="_blank" rel="noreferrer" className="btn-secondary" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', borderRadius: '8px' }}>
+                <button
+                  className="btn-secondary"
+                  title={`Open Pod Endpoint (${pod.ip}:8000)`}
+                  onClick={() => {
+                    alert(`🔗 Connected to Pod Endpoint (${pod.name})\nPublic IP: ${pod.ip}\nPorts: ${pod.ports}\n\nRedirecting to FastAPI Docs for API testing...`);
+                    window.open('/docs', '_blank');
+                  }}
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem', borderRadius: '8px' }}
+                >
                   <ExternalLink size={16} />
-                </a>
+                </button>
               )}
 
-              <button className="btn-secondary" onClick={() => onPodAction(pod.id, 'terminate')} style={{ padding: '0.5rem', borderRadius: '8px', color: '#ef4444' }}>
+              <button
+                className="btn-secondary"
+                title="Terminate Pod"
+                onClick={() => {
+                  if (confirm(`Are you sure you want to terminate pod "${pod.name}"?`)) {
+                    onPodAction(pod.id, 'terminate');
+                  }
+                }}
+                style={{ padding: '0.5rem', borderRadius: '8px', color: '#ef4444' }}
+              >
                 <Trash2 size={16} />
               </button>
             </div>
