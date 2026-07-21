@@ -5,13 +5,15 @@ import { ClusterStats } from './components/ClusterStats';
 import { PodManager } from './components/PodManager';
 import { ServerlessStudio } from './components/ServerlessStudio';
 import { SDKPlayground } from './components/SDKPlayground';
+import { TelemetryView } from './components/TelemetryView';
+import { CostCalculator } from './components/CostCalculator';
 import { AskRunpodModal } from './components/AskRunpodModal';
 import { SearchModal } from './components/SearchModal';
 import { MessageSquare } from 'lucide-react';
 import { GPUInfo, PodResponse, ServerlessEndpointInfo, ServerlessRunResponse, SDKCodeResponse, ClusterMetrics } from './types';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'home' | 'pods' | 'serverless' | 'sdk'>('pods');
+  const [activeTab, setActiveTab] = useState<'home' | 'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator'>('pods');
   const [metrics, setMetrics] = useState<ClusterMetrics | null>(null);
   const [gpus, setGpus] = useState<GPUInfo[]>([]);
   const [pods, setPods] = useState<PodResponse[]>([]);
@@ -164,6 +166,16 @@ export function App() {
             <SDKPlayground
               onGenerateCode={handleGenerateCode}
             />
+          )}
+
+          {activeTab === 'telemetry' && (
+            <TelemetryView
+              pods={pods}
+            />
+          )}
+
+          {activeTab === 'calculator' && (
+            <CostCalculator />
           )}
         </main>
       </div>

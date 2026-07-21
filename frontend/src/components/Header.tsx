@@ -1,11 +1,11 @@
 import React from 'react';
-import { Cpu, Terminal, Zap, ShieldCheck, Box, Search, Home } from 'lucide-react';
+import { Cpu, Terminal, Zap, ShieldCheck, Box, Search, Home, BarChart3, DollarSign } from 'lucide-react';
 import { ClusterMetrics } from '../types';
 
 interface HeaderProps {
   metrics: ClusterMetrics | null;
-  activeTab: 'home' | 'pods' | 'serverless' | 'sdk';
-  setActiveTab: (tab: 'home' | 'pods' | 'serverless' | 'sdk') => void;
+  activeTab: 'home' | 'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator';
+  setActiveTab: (tab: 'home' | 'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator') => void;
   onDeployClick: () => void;
   onSearchClick: () => void;
 }
@@ -50,6 +50,20 @@ export const Header: React.FC<HeaderProps> = ({ metrics, activeTab, setActiveTab
           className={`nav-pill-btn ${activeTab === 'sdk' ? 'active' : ''}`}
         >
           <Terminal size={15} /> SDK Generator
+        </button>
+
+        <button
+          onClick={() => setActiveTab('telemetry')}
+          className={`nav-pill-btn ${activeTab === 'telemetry' ? 'active' : ''}`}
+        >
+          <BarChart3 size={15} /> Telemetry
+        </button>
+
+        <button
+          onClick={() => setActiveTab('calculator')}
+          className={`nav-pill-btn ${activeTab === 'calculator' ? 'active' : ''}`}
+        >
+          <DollarSign size={15} /> Calculator
         </button>
       </nav>
 

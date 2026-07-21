@@ -83,3 +83,39 @@ class ClusterMetrics(BaseModel):
     daily_forecast_usd: float
     avg_serverless_latency_ms: int
     mock_mode: bool
+
+# Telemetry Models
+class TelemetryPoint(BaseModel):
+    timestamp: str
+    vram_used_gb: float
+    vram_total_gb: float
+    compute_load_pct: float
+    temperature_c: int
+    fan_speed_pct: int
+    network_io_mbps: float
+
+class TelemetryResponse(BaseModel):
+    pod_id: str
+    pod_name: str
+    gpu_type: str
+    history: List[TelemetryPoint]
+
+# Cost Calculator Models
+class CostCalculatorRequest(BaseModel):
+    gpu_type_id: str = "NVIDIA RTX 4090"
+    gpu_count: int = 1
+    hours_per_day: int = 24
+    duration_days: int = 30
+
+class CostCalculatorResponse(BaseModel):
+    gpu_type_id: str
+    gpu_count: int
+    hours_per_day: int
+    duration_days: int
+    total_hours: int
+    hourly_rate_on_demand: float
+    hourly_rate_spot: float
+    total_on_demand_usd: float
+    total_spot_usd: float
+    savings_usd: float
+    savings_pct: float

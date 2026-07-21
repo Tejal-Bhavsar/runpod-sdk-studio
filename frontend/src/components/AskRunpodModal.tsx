@@ -76,7 +76,7 @@ export const AskRunpodModal: React.FC<AskRunpodModalProps> = ({ isOpen, onClose,
   };
 
   const handleActionClick = (action: string) => {
-    const actionLower = action.lower ? action.lower() : action.toLowerCase();
+    const actionLower = action.toLowerCase();
     if (actionLower.includes('serverless') || actionLower.includes('vllm')) {
       onSelectTab('serverless');
       onClose();

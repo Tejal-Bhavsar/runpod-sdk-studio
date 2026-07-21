@@ -66,3 +66,36 @@ export interface ClusterMetrics {
   avg_serverless_latency_ms: number;
   mock_mode: boolean;
 }
+
+// Telemetry & Metrics
+export interface TelemetryPoint {
+  timestamp: string;
+  vram_used_gb: number;
+  vram_total_gb: number;
+  compute_load_pct: number;
+  temperature_c: number;
+  fan_speed_pct: number;
+  network_io_mbps: number;
+}
+
+export interface TelemetryResponse {
+  pod_id: string;
+  pod_name: string;
+  gpu_type: string;
+  history: TelemetryPoint[];
+}
+
+// Cost Calculator
+export interface CostCalculatorResponse {
+  gpu_type_id: string;
+  gpu_count: number;
+  hours_per_day: number;
+  duration_days: number;
+  total_hours: number;
+  hourly_rate_on_demand: number;
+  hourly_rate_spot: number;
+  total_on_demand_usd: number;
+  total_spot_usd: number;
+  savings_usd: number;
+  savings_pct: number;
+}
