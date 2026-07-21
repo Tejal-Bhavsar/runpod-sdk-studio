@@ -3,11 +3,12 @@ import { Search, X, Code2, Cpu, FileText, ExternalLink, Copy, Check, ArrowRight 
 
 interface SearchResult {
   id: string;
-  title: str;
+  title: string;
   category: string;
   description: string;
   badge?: string;
   target_tab?: string;
+  direct_url?: string;
   snippet?: string;
 }
 
@@ -72,9 +73,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
   };
 
   const handleItemClick = (item: SearchResult) => {
-    if (item.target_tab === 'docs') {
-      window.open('/docs', '_blank');
-    } else if (item.target_tab === 'pods' || item.target_tab === 'serverless' || item.target_tab === 'sdk') {
+    if (item.direct_url) {
+      window.open(item.direct_url, '_blank');
+    }
+    if (item.target_tab && (item.target_tab === 'pods' || item.target_tab === 'serverless' || item.target_tab === 'sdk')) {
       onSelectTab(item.target_tab);
     }
     onClose();
@@ -170,8 +172,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSel
                       {item.badge && <span className="badge-tag">{item.badge}</span>}
                     </div>
 
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-                      Jump to <ArrowRight size={12} />
+                    <span style={{ fontSize: '0.75rem', color: '#c084fc', display: 'flex', alignItems: 'center', gap: '0.2rem', fontWeight: 600 }}>
+                      Open Specs <ExternalLink size={12} />
                     </span>
                   </div>
 

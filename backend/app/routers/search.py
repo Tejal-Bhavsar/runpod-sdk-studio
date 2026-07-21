@@ -11,6 +11,7 @@ class SearchResultItem(BaseModel):
     description: str
     badge: Optional[str] = None
     target_tab: Optional[str] = None  # "pods" | "serverless" | "sdk" | "docs"
+    direct_url: Optional[str] = None
     snippet: Optional[str] = None
 
 class SearchResponse(BaseModel):
@@ -19,7 +20,7 @@ class SearchResponse(BaseModel):
     results: List[SearchResultItem]
 
 SEARCH_INDEX: List[SearchResultItem] = [
-    # API Endpoints
+    # API Endpoints (Deep linked directly to OpenAPI /docs anchors)
     SearchResultItem(
         id="api-get-pods",
         title="GET /api/pods",
@@ -27,6 +28,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="Retrieve all active, stopped, and terminating GPU Pod instances.",
         badge="REST API",
         target_tab="pods",
+        direct_url="/docs#/Pods/list_pods_api_pods_get",
         snippet="curl -X GET http://localhost:8000/api/pods"
     ),
     SearchResultItem(
@@ -36,6 +38,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="Deploy a new on-demand GPU Pod instance with custom Docker image.",
         badge="REST API",
         target_tab="pods",
+        direct_url="/docs#/Pods/create_pod_api_pods_post",
         snippet="curl -X POST http://localhost:8000/api/pods -H 'Content-Type: application/json' -d '{\"name\":\"worker\"}'"
     ),
     SearchResultItem(
@@ -45,6 +48,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="Execute synchronous inference requests against RunPod Serverless GPU endpoints.",
         badge="REST API",
         target_tab="serverless",
+        direct_url="/docs#/Serverless/run_serverless_endpoint_api_serverless_run_post",
         snippet="curl -X POST http://localhost:8000/api/serverless/run"
     ),
     SearchResultItem(
@@ -54,6 +58,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="WebSocket endpoint streaming token generation logs & worker telemetry.",
         badge="WebSocket",
         target_tab="serverless",
+        direct_url="/docs#/WebSockets/stream_serverless_execution_ws_serverless_stream_get",
         snippet="ws://localhost:8000/ws/serverless/stream"
     ),
 
@@ -65,6 +70,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="Python SDK helper to deploy on-demand or spot GPU container instances.",
         badge="Python SDK",
         target_tab="sdk",
+        direct_url="https://docs.runpod.io/sdks/python/overview",
         snippet="runpod.create_pod(name='my-pod', gpu_type_id='NVIDIA RTX 4090')"
     ),
     SearchResultItem(
@@ -74,6 +80,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="Python SDK method to trigger serverless LLM/SDXL inference execution.",
         badge="Python SDK",
         target_tab="sdk",
+        direct_url="https://docs.runpod.io/serverless/endpoints/manage-endpoints",
         snippet="endpoint = runpod.Endpoint('ep-vllm')\nres = endpoint.run_sync({'input': {'prompt': 'hello'}})"
     ),
     SearchResultItem(
@@ -83,6 +90,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="TypeScript SDK method to manage cloud GPU infrastructure.",
         badge="TypeScript SDK",
         target_tab="sdk",
+        direct_url="https://docs.runpod.io/sdks/typescript/overview",
         snippet="const pod = await runpod.createPod({ name: 'my-pod' });"
     ),
 
@@ -94,6 +102,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="Ultra high-throughput Hopper architecture GPU for large model inference & fine-tuning ($2.69/hr).",
         badge="80GB VRAM",
         target_tab="pods",
+        direct_url="https://www.runpod.io/gpu-instance/pricing",
         snippet="Cost: $2.69/hr (~$64.56/day)"
     ),
     SearchResultItem(
@@ -103,6 +112,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="Enterprise standard GPU for distributed AI training and high-concurrency serverless ($1.89/hr).",
         badge="80GB VRAM",
         target_tab="pods",
+        direct_url="https://www.runpod.io/gpu-instance/pricing",
         snippet="Cost: $1.89/hr (~$45.36/day)"
     ),
     SearchResultItem(
@@ -112,17 +122,19 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="High single-card efficiency for vLLM serverless workers and medium model serving ($0.44/hr).",
         badge="24GB VRAM",
         target_tab="pods",
+        direct_url="https://www.runpod.io/gpu-instance/pricing",
         snippet="Cost: $0.44/hr (~$10.56/day)"
     ),
 
     # Documentation & Guides
     SearchResultItem(
         id="doc-openapi-swagger",
-        title="Interactive OpenAPI / Swagger Documentation",
+        title="Interactive OpenAPI / Swagger Specification",
         category="Documentation",
         description="Full REST & WebSocket API specification with interactive endpoint testing UI.",
         badge="API Specs",
         target_tab="docs",
+        direct_url="/docs",
         snippet="URL: http://localhost:8000/docs"
     ),
     SearchResultItem(
@@ -132,6 +144,7 @@ SEARCH_INDEX: List[SearchResultItem] = [
         description="Best practices for optimizing model weight caching, worker idle timeouts, and sub-second cold starts.",
         badge="Guide",
         target_tab="serverless",
+        direct_url="https://docs.runpod.io/serverless/vllm",
         snippet="Learn how RunPod pre-warms containers using persistent Network Volumes."
     )
 ]
