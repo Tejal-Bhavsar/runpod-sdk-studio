@@ -4,8 +4,8 @@ import { ClusterMetrics } from '../types';
 
 interface HeaderProps {
   metrics: ClusterMetrics | null;
-  activeTab: 'home' | 'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator';
-  setActiveTab: (tab: 'home' | 'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator') => void;
+  activeTab: 'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator';
+  setActiveTab: (tab: 'pods' | 'serverless' | 'sdk' | 'telemetry' | 'calculator') => void;
   onDeployClick: () => void;
   onSearchClick: () => void;
 }
@@ -13,8 +13,8 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ metrics, activeTab, setActiveTab, onDeployClick, onSearchClick }) => {
   return (
     <header className="runpod-navbar">
-      {/* Brand Logo - Clicking logo goes to Landing Page Home */}
-      <div className="runpod-logo-group" onClick={() => setActiveTab('home')}>
+      {/* Brand Logo - Clicking logo goes to GPU Pods tab */}
+      <div className="runpod-logo-group" onClick={() => setActiveTab('pods')}>
         <div className="runpod-logo-icon">
           <Box size={22} color="#ffffff" />
         </div>
@@ -24,12 +24,6 @@ export const Header: React.FC<HeaderProps> = ({ metrics, activeTab, setActiveTab
 
       {/* Navigation Pill Menu */}
       <nav className="nav-pill-container">
-        <button
-          onClick={() => setActiveTab('home')}
-          className={`nav-pill-btn ${activeTab === 'home' ? 'active' : ''}`}
-        >
-          <Home size={15} /> Overview
-        </button>
 
         <button
           onClick={() => setActiveTab('pods')}
