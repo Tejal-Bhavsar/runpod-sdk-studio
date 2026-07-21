@@ -52,21 +52,37 @@ export const SDKPlayground: React.FC<SDKPlaygroundProps> = ({ onGenerateCode }) 
           <label style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: '0.4rem' }}>Target SDK Language</label>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button
-              className="btn-secondary"
               onClick={() => setLanguage('python')}
               style={{
-                flex: 1, border: language === 'python' ? '2px solid var(--accent-purple)' : '1px solid var(--border-subtle)',
-                background: language === 'python' ? 'rgba(124, 58, 237, 0.2)' : 'transparent'
+                flex: 1,
+                padding: '0.75rem 0.9rem',
+                borderRadius: '10px',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                border: language === 'python' ? '2px solid #7b3fe4' : '1px solid rgba(255, 255, 255, 0.15)',
+                background: language === 'python' ? 'linear-gradient(135deg, #7b3fe4, #6366f1)' : 'rgba(255, 255, 255, 0.06)',
+                color: '#ffffff',
+                boxShadow: language === 'python' ? '0 0 16px rgba(123, 63, 228, 0.5)' : 'none'
               }}
             >
               🐍 Python SDK (runpod-python)
             </button>
             <button
-              className="btn-secondary"
               onClick={() => setLanguage('typescript')}
               style={{
-                flex: 1, border: language === 'typescript' ? '2px solid var(--accent-purple)' : '1px solid var(--border-subtle)',
-                background: language === 'typescript' ? 'rgba(124, 58, 237, 0.2)' : 'transparent'
+                flex: 1,
+                padding: '0.75rem 0.9rem',
+                borderRadius: '10px',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                border: language === 'typescript' ? '2px solid #7b3fe4' : '1px solid rgba(255, 255, 255, 0.15)',
+                background: language === 'typescript' ? 'linear-gradient(135deg, #7b3fe4, #6366f1)' : 'rgba(255, 255, 255, 0.06)',
+                color: '#ffffff',
+                boxShadow: language === 'typescript' ? '0 0 16px rgba(123, 63, 228, 0.5)' : 'none'
               }}
             >
               🔷 TypeScript SDK (runpod-ts)
