@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.env
+*.log
+
+# Node / Frontend
+node_modules/
+dist/
+.DS_Store
+
+# RunPod & Temp files
+*.egg-info/
+.pytest_cache/
